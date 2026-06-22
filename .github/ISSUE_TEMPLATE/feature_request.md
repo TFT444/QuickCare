@@ -1,22 +1,28 @@
 ---
 name: Feature Request
-about: Propose a new feature or enhancement
-title: '[FEATURE] '
+about: Propose a feature — this will become the issue you branch from
+title: 'feat: '
 labels: enhancement
 assignees: TFT444
 ---
 
 ## Summary
-A clear description of the feature and the problem it solves.
+<!-- What should this feature do and why? -->
 
 ## NHS / Patient Impact
-How does this feature improve care, access, or safety for patients?
+<!-- How does this improve care, access, or safety? -->
 
 ## Proposed Solution
-Describe your approach.
+<!-- How do you plan to implement this? -->
 
-## Alternatives Considered
-Other approaches you considered and why you ruled them out.
+## Acceptance Criteria
+- [ ] 
+- [ ] 
+- [ ] 
 
 ## Clinical Safety Considerations
-Does this feature involve AI output, health data, or patient-facing content?
+- [ ] This touches AI output or patient-facing content → `src/core/safety.py` must be updated/tested
+- [ ] No clinical safety impact
+
+## Branch I will work on
+`feature/<this-issue-number>-short-description`

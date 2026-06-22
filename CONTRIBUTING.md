@@ -1,110 +1,158 @@
 # Contributing to QuickCare
 
-Thank you for your interest in contributing. QuickCare handles health data for vulnerable populations — contributions are held to a high standard of quality, security, and clinical safety.
+All work — no matter how small — follows the same process:  
+**Open an issue → Branch from dev → Open a PR → Get reviewed → Merge**
+
+No exceptions. No direct pushes. No skipping steps.
 
 ---
 
-## Branch Model
+## Workflow (Mandatory)
 
 ```
-main  ← stable, production-ready — NO direct pushes
-  └── dev  ← all active development lives here
-        └── feature/your-feature  ← branch off dev, PR back into dev
+1. Open a GitHub Issue
+       ↓
+2. Create a branch off dev
+   naming: feature/42-short-description
+           fix/17-bug-name
+           security/9-vuln-name
+       ↓
+3. Do the work, commit locally
+       ↓
+4. Push branch → open Pull Request into dev
+       ↓
+5. PR reviewed and approved by @TFT444
+       ↓
+6. Merge into dev (squash merge preferred)
+       ↓
+7. When dev is stable → PR from dev into main
+       ↓
+8. Approved by @TFT444 → merge into main
 ```
 
-| Branch | Purpose | Who can push |
-|---|---|---|
-| `main` | Production-ready, reviewed code | PRs from `dev` only, approved by `@TFT444` |
-| `dev` | Active development | Contributors via feature branches |
-| `feature/*` | Individual features or fixes | You |
+### Branch Rules
 
-**Never push directly to `main`.** All changes must go through `dev` and pass review before being merged to `main`.
+| Branch | Direct push | PR required | Approvals needed |
+|--------|-------------|-------------|------------------|
+| `main` | ❌ Blocked  | ✅ Yes      | ✅ 1 — @TFT444 only |
+| `dev`  | ❌ Blocked  | ✅ Yes      | ✅ 1 — @TFT444 only |
+| `feature/*` | ✅ Yes | —          | —                |
+| `fix/*`     | ✅ Yes | —          | —                |
+| `security/*`| ✅ Yes | —          | —                |
+
+> **@TFT444 must approve every PR into both `dev` and `main`. No exceptions.**
 
 ---
 
-## Getting Started
+## Step 1 — Open an Issue First
+
+Every piece of work starts with a GitHub Issue.
+
+- Use the **Bug Report** template for bugs
+- Use the **Feature Request** template for new features
+- For security vulnerabilities — see [SECURITY.md](./SECURITY.md), do **not** open a public issue
+
+The issue number becomes part of your branch name and PR title.
+
+---
+
+## Step 2 — Create Your Branch
 
 ```bash
-# 1. Clone the repo
-git clone https://github.com/TFT444/QuickCare.git
-cd QuickCare
-
-# 2. Create your feature branch from dev
+# Always branch from dev — never from main
 git checkout dev
-git checkout -b feature/your-feature-name
+git pull origin dev
+git checkout -b feature/42-prescription-language-fallback
+```
 
-# 3. Install dependencies
-pip install -r requirements.txt
+Branch naming:
+```
+feature/<issue-number>-short-description
+fix/<issue-number>-short-description
+security/<issue-number>-short-description
+docs/<issue-number>-short-description
+test/<issue-number>-short-description
+```
 
-# 4. Copy and configure environment
-cp .env.example .env
-# Fill in your API keys
+---
 
-# 5. Run tests before committing
+## Step 3 — Do the Work
+
+```bash
+# Run tests before every commit
 pytest tests/ -v --tb=short
+
+# Security check
+bandit -r src/ -ll
+
+# No secrets
+grep -r "API_KEY\|SECRET\|PASSWORD" src/ --include="*.py"
 ```
+
+### Clinical Safety Rules (mandatory for any AI-touching code)
+- All AI output **must** pass through `src/core/safety.py`
+- No diagnostic claims
+- No dose change suggestions
+- Safety disclaimer must be appended to every AI response
 
 ---
 
-## Development Rules
-
-### Code Quality
-- All code must pass `bandit -r src/ -ll` with no high-severity findings
-- All endpoints must have Pydantic input validation
-- No raw SQL — SQLAlchemy ORM only
-- No secrets or API keys in code or comments
-
-### Clinical Safety (mandatory)
-- Every AI output **must** pass through `src/core/safety.py` before being returned to the user
-- No code may bypass the safety guardrail
-- No code may make diagnostic claims or suggest changing prescribed dosages
-- All new AI prompts must be reviewed for clinical safety implications
-
-### Testing
-- New features require unit tests in `tests/unit/`
-- New API endpoints require integration tests in `tests/integration/`
-- Changes to AI output logic require updates to `tests/clinical/test_accuracy.py`
-
----
-
-## Pull Request Process
-
-1. Branch off `dev`, not `main`
-2. Ensure all tests pass: `pytest tests/ -v --tb=short`
-3. Ensure no secrets: `trufflehog filesystem .`
-4. Ensure no high-severity issues: `bandit -r src/ -ll`
-5. Fill in the PR template fully
-6. Request review from `@TFT444`
-7. PR is merged only after approval + CI green
-
----
-
-## Commit Message Format
+## Step 4 — Commit Messages
 
 ```
-type: short description (max 72 chars)
+type(scope): short description  ← max 72 chars
 
-Optional longer body explaining WHY, not WHAT.
+Why this change was needed (optional body).
+Closes #42
 ```
 
-Types: `feat`, `fix`, `docs`, `test`, `refactor`, `ci`, `security`
+Types: `feat` · `fix` · `docs` · `test` · `refactor` · `ci` · `security`
 
 Examples:
 ```
-feat: add Bengali TTS voice mapping in Azure voice layer
-fix: prevent safety.py bypass when language is unsupported
-security: add rate limiting to voice/transcribe endpoint
+feat(i18n): add Gujarati TTS voice mapping
+Closes #42
+
+fix(safety): prevent bypass when language code is unsupported
+Closes #17
+
+security(auth): enforce token expiry on all middleware routes
+Closes #9
 ```
 
 ---
 
-## Security Vulnerabilities
+## Step 5 — Open a Pull Request
 
-Do **not** open a public issue for security vulnerabilities. See [SECURITY.md](./SECURITY.md) for the responsible disclosure process.
+```bash
+git push origin feature/42-prescription-language-fallback
+```
+
+Then open a PR on GitHub:
+- **Target branch: `dev`** (never `main` directly)
+- Fill in the PR template fully — do not skip sections
+- Reference the issue: `Closes #42`
+- Assign `@TFT444` as reviewer
+
+The PR will not be merged until:
+- ✅ All CI checks pass (tests, Bandit, TruffleHog, clinical safety suite)
+- ✅ Approved by `@TFT444`
+
+---
+
+## Step 6 — dev → main Promotion
+
+When `dev` is stable and tested:
+
+1. Open a PR from `dev` into `main`
+2. Title: `release: promote dev to main — vX.Y`
+3. Describe what's included
+4. Assign `@TFT444` for review
+5. Merge only after approval + CI green
 
 ---
 
 ## Authors
 
-- **Tanvir Farhad** — Founder & Lead Engineer (`@TFT444`)
+- **Tanvir Farhad** — Founder & Lead Engineer, sole approver (`@TFT444`)
 - **Emon** — Co-Author & Contributor

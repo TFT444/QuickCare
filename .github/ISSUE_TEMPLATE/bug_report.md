@@ -1,31 +1,35 @@
 ---
 name: Bug Report
-about: Report a bug or unexpected behaviour
-title: '[BUG] '
+about: Report a bug — this will become the issue you branch from
+title: 'fix: '
 labels: bug
 assignees: TFT444
 ---
 
-## Describe the Bug
-A clear description of what the bug is.
+## Summary
+<!-- One sentence: what is broken? -->
 
 ## Steps to Reproduce
-1. Go to '...'
-2. Call endpoint '...'
-3. See error
+1. 
+2. 
+3. 
 
 ## Expected Behaviour
-What you expected to happen.
 
 ## Actual Behaviour
-What actually happened.
 
 ## Environment
-- Branch: (`main` / `dev`)
+- Branch: (`dev` / `main`)
 - Python version:
-- Relevant logs or error output:
+- Relevant error / log output:
+
+```
+paste error here
+```
 
 ## Clinical Safety Impact
-<!-- Does this bug affect AI output, disclaimers, or patient-facing content? -->
-- [ ] Yes — clinical safety may be affected (tag as `critical`)
+- [ ] Yes — patient-facing output or AI response may be affected ← mark as `critical`
 - [ ] No
+
+## Branch I will work on
+`fix/<this-issue-number>-short-description`

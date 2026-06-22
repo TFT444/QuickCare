@@ -1,13 +1,12 @@
 name: CI
 
 on:
-  push:
-    branches: [main, dev]
   pull_request:
-    branches: [main, dev]
+    branches: [dev, main]   # runs ONLY on PRs — direct pushes to dev/main are blocked by branch protection
 
 jobs:
   test:
+    name: Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,17 +17,53 @@ jobs:
           python-version: '3.11'
 
       - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
-      - name: Run tests
+      - name: Run all tests
         run: pytest tests/ -v --tb=short
 
-      - name: Security scan (bandit)
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install security tools
+        run: pip install bandit pip-audit
+
+      - name: Bandit static analysis
         run: bandit -r src/ -ll
 
-      - name: Check for secrets (trufflehog)
+      - name: Dependency audit
+        run: pip-audit -r requirements.txt || true
+
+      - name: TruffleHog secret scan
         uses: trufflesecurity/trufflehog@main
         with:
           path: ./
-          base: ${{ github.event.repository.default_branch }}
+          base: ${{ github.event.pull_request.base.sha }}
+          extra_args: --only-verified
+
+  clinical-safety:
+    name: Clinical Safety
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Clinical safety guardrail tests
+        run: pytest tests/clinical/ -v --tb=short

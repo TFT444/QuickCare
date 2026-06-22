@@ -1,33 +1,53 @@
-## Description
-<!-- What does this PR do? Why? -->
+## Linked Issue
+
+Closes #<!-- issue number — required, do not skip -->
+
+> ⚠️ Every PR must reference an issue. PRs without a linked issue will not be reviewed.
+
+---
+
+## What does this PR do?
+<!-- Clear description of the change and why it was needed -->
 
 ## Type of Change
-- [ ] Feature (`feat`)
-- [ ] Bug fix (`fix`)
-- [ ] Security fix (`security`)
-- [ ] Documentation (`docs`)
-- [ ] Tests (`test`)
-- [ ] Refactor (`refactor`)
+- [ ] `feat` — New feature
+- [ ] `fix` — Bug fix
+- [ ] `security` — Security fix
+- [ ] `docs` — Documentation
+- [ ] `test` — Tests only
+- [ ] `refactor` — Refactor, no behaviour change
+- [ ] `ci` — CI / workflow change
 
-## Branch
+## Target Branch
+- [ ] This PR targets `dev` ← **always, unless this is a dev→main release PR**
+
+---
+
+## Pre-merge Checklist
+
+### Code
 - [ ] I branched off `dev`, not `main`
-- [ ] This PR targets `dev`, not `main`
-
-## Testing
-- [ ] `pytest tests/ -v --tb=short` passes
+- [ ] `pytest tests/ -v --tb=short` passes locally
 - [ ] New tests added for new functionality
+- [ ] No hardcoded secrets, API keys, or credentials
 
-## Clinical Safety (if AI output is touched)
-- [ ] All AI output passes through `src/core/safety.py`
+### Clinical Safety *(skip if no AI output code was touched)*
+- [ ] All AI output still passes through `src/core/safety.py`
 - [ ] No diagnostic claims introduced
 - [ ] No dose change recommendations introduced
-- [ ] Safety disclaimer still appended to all outputs
+- [ ] Safety disclaimer still appended to all responses
+- [ ] `tests/clinical/test_accuracy.py` passes
 
-## Security
-- [ ] No secrets or API keys in code
-- [ ] No raw SQL introduced
-- [ ] `bandit -r src/ -ll` passes with no new high-severity findings
+### Security
+- [ ] `bandit -r src/ -ll` passes — no new HIGH findings
 - [ ] Input validation present on any new endpoints
+- [ ] No raw SQL introduced
 
-## Related Issues
-Closes #
+---
+
+## Screenshots / Evidence *(if applicable)*
+
+---
+
+## Reviewer
+@TFT444 — please review and approve before merging.
