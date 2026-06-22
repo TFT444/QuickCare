@@ -1,0 +1,12 @@
+{
+  "greeting": "Cześć, jak mogę Ci dzisiaj pomóc?",
+  "disclaimer": "Te informacje mają charakter wyłącznie informacyjny. Zawsze konsultuj się z farmaceutą lub lekarzem.",
+  "prescription_prompt": "Proszę sfotografować lub wpisać szczegóły swojej recepty.",
+  "reminder_created": "Ustawiono przypomnienie dla {medication} o godzinie {time}.",
+  "booking_confirmed": "Twoja wizyta została potwierdzona na {datetime}.",
+  "error_generic": "Coś poszło nie tak. Spróbuj ponownie lub zadzwoń pod numer NHS 111.",
+  "triage_emergency": "W przypadku zagrożenia życia natychmiast zadzwoń pod numer 999.",
+  "triage_urgent": "Skontaktuj się z NHS 111 lub odwiedź najbliższe Centrum Pilnych Porad.",
+  "triage_routine": "Umów rutynową wizytę u swojego lekarza pierwszego kontaktu.",
+  "triage_self_care": "Można to prawdopodobnie opanować w domu. Porozmawiaj z farmaceutą, jeśli objawy się nasilą."
+}

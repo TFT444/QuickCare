@@ -1,0 +1,42 @@
+# Azure Container Apps deployment — QuickCare
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  containerRegistry: quickcareacr.azurecr.io
+  imageName: quickcare-api
+  resourceGroup: quickcare-rg
+  containerApp: quickcare-api
+
+steps:
+  - task: Docker@2
+    displayName: Build and push image
+    inputs:
+      command: buildAndPush
+      repository: $(imageName)
+      dockerfile: infrastructure/docker/Dockerfile
+      containerRegistry: $(containerRegistry)
+      tags: |
+        $(Build.BuildId)
+        latest
+
+  - task: AzureContainerApps@1
+    displayName: Deploy to Azure Container Apps
+    inputs:
+      azureSubscription: QuickCare-ServiceConnection
+      resourceGroup: $(resourceGroup)
+      containerAppName: $(containerApp)
+      imageToDeploy: $(containerRegistry)/$(imageName):$(Build.BuildId)
+      environmentVariables: |
+        ANTHROPIC_API_KEY=$(ANTHROPIC_API_KEY)
+        DATABASE_URL=$(DATABASE_URL)
+        REDIS_URL=$(REDIS_URL)
+        JWT_SECRET=$(JWT_SECRET)
+        AZURE_TTS_KEY=$(AZURE_TTS_KEY)
+        AZURE_TTS_REGION=uksouth
+        ENVIRONMENT=production

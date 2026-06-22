@@ -1,0 +1,12 @@
+{
+  "greeting": "Salaan, sidee kuu caawin karaa maanta?",
+  "disclaimer": "Macluumaadkan waxay u tahay hanuunin keliya. Had iyo jeer la tasho farmashiistaha ama dhakhtarkaaga.",
+  "prescription_prompt": "Fadlan sawir qaar ama qor faahfaahinta daawahaaga.",
+  "reminder_created": "Xusuusin ayaa loo dejiyay {medication} ee {time}.",
+  "booking_confirmed": "Ballankaaga waxaa lagu xaqiijiyay {datetime}.",
+  "error_generic": "Wax khalad ah ayaa dhacay. Ku celi ama wac NHS 111.",
+  "triage_emergency": "U wac 999 deg deg ah xaaladaha halis ah ee nolosha.",
+  "triage_urgent": "Fadlan la xiriir NHS 111 ama booqo Xarunta Daawaynta Deg Degga ee ugu dhow.",
+  "triage_routine": "Buuxi ballan caadi ah oo la xiriira dhakhtarkaaga guud.",
+  "triage_self_care": "Tani waxa laga yaabaa in guriga lagu maareeyo. Haddi calaamadaha ay sii daraan la tasho farmashiiste."
+}

@@ -1,0 +1,12 @@
+{
+  "greeting": "Hello, how can I help you today?",
+  "disclaimer": "This information is for guidance only. Always consult your pharmacist or GP for medical advice.",
+  "prescription_prompt": "Please photograph or type your prescription details.",
+  "reminder_created": "Reminder set for {medication} at {time}.",
+  "booking_confirmed": "Your appointment has been confirmed for {datetime}.",
+  "error_generic": "Something went wrong. Please try again or call NHS 111.",
+  "triage_emergency": "Call 999 immediately for life-threatening emergencies.",
+  "triage_urgent": "Please contact NHS 111 or visit your nearest Urgent Treatment Centre.",
+  "triage_routine": "Book a routine appointment with your GP.",
+  "triage_self_care": "This can likely be managed at home. Speak to a pharmacist if symptoms worsen."
+}
