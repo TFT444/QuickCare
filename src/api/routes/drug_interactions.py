@@ -38,7 +38,7 @@ async def check_drug_interactions(body: DrugInteractionRequest):
         disclaimer_text = ""
 
     return DrugInteractionResponse(
-        medications=result["medications"],
+        medications=result.get("medications", body.medications),
         guidance=guidance_text,
         language=result["language"],
         disclaimer=disclaimer_text,

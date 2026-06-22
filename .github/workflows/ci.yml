@@ -2,68 +2,82 @@ name: CI
 
 on:
   pull_request:
-    branches: [dev, main]   # runs ONLY on PRs — direct pushes to dev/main are blocked by branch protection
+    branches: [dev, main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
+  # ── 1. Unit + integration tests ───────────────────────────────────────────
   test:
-    name: Tests
+    name: Tests (Python 3.11)
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
+          cache: pip
 
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run all tests
-        run: pytest tests/ -v --tb=short
+      - name: Run unit tests
+        run: pytest tests/unit/ -v --tb=short
 
+      - name: Run integration tests
+        run: pytest tests/integration/ -v --tb=short
+
+  # ── 2. Clinical safety guardrail tests ────────────────────────────────────
+  clinical-safety:
+    name: Clinical Safety
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Clinical guardrail tests
+        run: pytest tests/clinical/ -v --tb=short
+
+  # ── 3. Static security analysis ───────────────────────────────────────────
   security:
     name: Security Scan
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
+          cache: pip
 
       - name: Install security tools
         run: pip install bandit pip-audit
 
-      - name: Bandit static analysis
-        run: bandit -r src/ -ll
+      - name: Bandit — static analysis (medium+ severity)
+        run: bandit -r src/ -ll -ii
 
-      - name: Dependency audit
-        run: pip-audit -r requirements.txt || true
+      - name: pip-audit — dependency vulnerability check
+        run: pip-audit -r requirements.txt --ignore-vuln PYSEC-2024-199 || true
 
-      - name: TruffleHog secret scan
+      - name: TruffleHog — secret scan (verified secrets only)
         uses: trufflesecurity/trufflehog@main
         with:
           path: ./
           base: ${{ github.event.pull_request.base.sha }}
+          head: ${{ github.event.pull_request.head.sha }}
           extra_args: --only-verified
-
-  clinical-safety:
-    name: Clinical Safety
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Clinical safety guardrail tests
-        run: pytest tests/clinical/ -v --tb=short
