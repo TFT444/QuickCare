@@ -1,0 +1,308 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 1120" font-family="Segoe UI, Arial, sans-serif">
+<style>
+  /* ── Sequential fade-in for each layer ── */
+  .l1 { animation: rise 0.6s ease 0.2s both; }
+  .l2 { animation: rise 0.6s ease 0.7s both; }
+  .l3 { animation: rise 0.6s ease 1.2s both; }
+  .l4 { animation: rise 0.6s ease 1.7s both; }
+  .l5 { animation: rise 0.6s ease 2.2s both; }
+  .l6 { animation: rise 0.6s ease 2.7s both; }
+  .l7 { animation: rise 0.6s ease 3.2s both; }
+
+  /* connectors fade in between layers */
+  .c1 { animation: fade 0.4s ease 0.65s both; }
+  .c2 { animation: fade 0.4s ease 1.15s both; }
+  .c3 { animation: fade 0.4s ease 1.65s both; }
+  .c4 { animation: fade 0.4s ease 2.15s both; }
+  .c5 { animation: fade 0.4s ease 2.65s both; }
+  .c6 { animation: fade 0.4s ease 3.15s both; }
+
+  /* audit labels */
+  .audit { animation: fade 0.5s ease 2.1s both; }
+
+  /* footer */
+  .footer { animation: fade 0.6s ease 3.7s both; }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fade {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* Flowing dashed connector lines */
+  .flow {
+    fill: none;
+    stroke-width: 2;
+    stroke-dasharray: 7 4;
+    animation: dash 0.7s linear infinite;
+  }
+  .flow-teal   { stroke: #2dd4bf; }
+  .flow-purple { stroke: #a78bfa; }
+  .flow-amber  { stroke: #fbbf24; }
+  .flow-red    { stroke: #f87171; }
+  .flow-blue   { stroke: #60a5fa; }
+  .flow-green  { stroke: #34d399; }
+
+  @keyframes dash {
+    from { stroke-dashoffset: 22; }
+    to   { stroke-dashoffset: 0; }
+  }
+
+  /* shimmer on wide boxes */
+  .shimmer rect { animation: shimmer 3s ease-in-out 1.5s infinite; }
+  @keyframes shimmer {
+    0%,100% { opacity: 0; }
+    50%      { opacity: 1; }
+  }
+</style>
+
+<!-- ── BACKGROUND ── -->
+<rect width="860" height="1120" fill="#0f172a" rx="16"/>
+
+<!-- ── TITLE ── -->
+<g class="l1">
+  <text x="430" y="46" text-anchor="middle" font-size="22" font-weight="700" fill="#f8fafc">
+    <tspan fill="#38bdf8">QuickCare</tspan> — System Architecture
+  </text>
+  <text x="430" y="68" text-anchor="middle" font-size="12" fill="#64748b">AI-powered NHS healthcare companion · Multilingual · Clinical-safety first</text>
+  <rect x="330" y="78" width="200" height="22" rx="11" fill="#1e3a5f"/>
+  <text x="430" y="93" text-anchor="middle" font-size="10" font-weight="600" fill="#38bdf8">NHS Pitch · Phase 1 MVP</text>
+</g>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- LAYER 1 — USER INPUT (teal) -->
+<!-- ══════════════════════════════════════════════ -->
+<g class="l1">
+  <text x="430" y="122" text-anchor="middle" font-size="9" font-weight="700" fill="#475569" letter-spacing="1.5">① USER INPUT LAYER</text>
+
+  <!-- Photo upload -->
+  <rect x="30"  y="130" width="178" height="70" rx="10" fill="#0f3d38" stroke="#0d9488" stroke-width="1.5"/>
+  <text x="119" y="158" text-anchor="middle" font-size="18">📷</text>
+  <text x="119" y="177" text-anchor="middle" font-size="11" font-weight="700" fill="#5eead4">Photo Upload</text>
+  <text x="119" y="192" text-anchor="middle" font-size="9"  fill="#99f6e4">Prescription image</text>
+
+  <!-- Voice input -->
+  <rect x="221" y="130" width="178" height="70" rx="10" fill="#0f3d38" stroke="#0d9488" stroke-width="1.5"/>
+  <text x="310" y="158" text-anchor="middle" font-size="18">🎙</text>
+  <text x="310" y="177" text-anchor="middle" font-size="11" font-weight="700" fill="#5eead4">Voice Input</text>
+  <text x="310" y="192" text-anchor="middle" font-size="9"  fill="#99f6e4">Any language</text>
+
+  <!-- Text input -->
+  <rect x="412" y="130" width="178" height="70" rx="10" fill="#0f3d38" stroke="#0d9488" stroke-width="1.5"/>
+  <text x="501" y="158" text-anchor="middle" font-size="18">⌨️</text>
+  <text x="501" y="177" text-anchor="middle" font-size="11" font-weight="700" fill="#5eead4">Text Input</text>
+  <text x="501" y="192" text-anchor="middle" font-size="9"  fill="#99f6e4">Type or paste</text>
+
+  <!-- NHS record -->
+  <rect x="603" y="130" width="227" height="70" rx="10" fill="#0f3d38" stroke="#0d9488" stroke-width="1.5"/>
+  <text x="716" y="158" text-anchor="middle" font-size="18">🏥</text>
+  <text x="716" y="177" text-anchor="middle" font-size="11" font-weight="700" fill="#5eead4">NHS Record</text>
+  <text x="716" y="192" text-anchor="middle" font-size="9"  fill="#99f6e4">Via NHS Login</text>
+</g>
+
+<!-- CONNECTOR 1 -->
+<g class="c1">
+  <line class="flow flow-teal" x1="430" y1="200" x2="430" y2="240"/>
+  <polygon points="424,235 430,248 436,235" fill="#2dd4bf"/>
+</g>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- LAYER 2 — PROCESSING (purple) -->
+<!-- ══════════════════════════════════════════════ -->
+<g class="l2">
+  <text x="430" y="265" text-anchor="middle" font-size="9" font-weight="700" fill="#475569" letter-spacing="1.5">② PROCESSING LAYER</text>
+
+  <rect x="30"  y="272" width="178" height="70" rx="10" fill="#2e1065" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="119" y="300" text-anchor="middle" font-size="18">🔍</text>
+  <text x="119" y="319" text-anchor="middle" font-size="11" font-weight="700" fill="#c4b5fd">OCR Engine</text>
+  <text x="119" y="334" text-anchor="middle" font-size="9"  fill="#ddd6fe">pytesseract</text>
+
+  <rect x="221" y="272" width="178" height="70" rx="10" fill="#2e1065" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="310" y="300" text-anchor="middle" font-size="18">🎧</text>
+  <text x="310" y="319" text-anchor="middle" font-size="11" font-weight="700" fill="#c4b5fd">STT Engine</text>
+  <text x="310" y="334" text-anchor="middle" font-size="9"  fill="#ddd6fe">Whisper · auto lang</text>
+
+  <rect x="412" y="272" width="178" height="70" rx="10" fill="#2e1065" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="501" y="300" text-anchor="middle" font-size="18">🌐</text>
+  <text x="501" y="319" text-anchor="middle" font-size="11" font-weight="700" fill="#c4b5fd">Lang Detect</text>
+  <text x="501" y="334" text-anchor="middle" font-size="9"  fill="#ddd6fe">Auto ISO 639-1</text>
+
+  <rect x="603" y="272" width="227" height="70" rx="10" fill="#2e1065" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="716" y="300" text-anchor="middle" font-size="18">🔐</text>
+  <text x="716" y="319" text-anchor="middle" font-size="11" font-weight="700" fill="#c4b5fd">NHS Login</text>
+  <text x="716" y="334" text-anchor="middle" font-size="9"  fill="#ddd6fe">OAuth 2.0</text>
+</g>
+
+<!-- CONNECTOR 2 -->
+<g class="c2">
+  <line class="flow flow-purple" x1="430" y1="342" x2="430" y2="382"/>
+  <polygon points="424,377 430,390 436,377" fill="#a78bfa"/>
+</g>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- LAYER 3 — AI ENGINE (amber) -->
+<!-- ══════════════════════════════════════════════ -->
+<g class="l3">
+  <text x="430" y="408" text-anchor="middle" font-size="9" font-weight="700" fill="#475569" letter-spacing="1.5">③ AI CORE ENGINE</text>
+  <rect x="30" y="415" width="800" height="82" rx="12" fill="#1c0a00" stroke="#d97706" stroke-width="2"/>
+  <text x="430" y="444" text-anchor="middle" font-size="14" font-weight="700" fill="#fcd34d">⚡ QuickCare AI Engine — Claude API (Anthropic)</text>
+  <text x="430" y="462" text-anchor="middle" font-size="10" fill="#fde68a">core/ai_engine.py · claude-sonnet-4-6 · Anthropic SDK</text>
+  <!-- pills -->
+  <rect x="52"  y="472" width="158" height="16" rx="8" fill="rgba(217,119,6,0.2)" stroke="rgba(217,119,6,0.4)" stroke-width="1"/>
+  <text x="131" y="484" text-anchor="middle" font-size="8.5" fill="#fcd34d">Prescription Explainer</text>
+  <rect x="222" y="472" width="168" height="16" rx="8" fill="rgba(217,119,6,0.2)" stroke="rgba(217,119,6,0.4)" stroke-width="1"/>
+  <text x="306" y="484" text-anchor="middle" font-size="8.5" fill="#fcd34d">Drug Interaction Checker</text>
+  <rect x="402" y="472" width="130" height="16" rx="8" fill="rgba(217,119,6,0.2)" stroke="rgba(217,119,6,0.4)" stroke-width="1"/>
+  <text x="467" y="484" text-anchor="middle" font-size="8.5" fill="#fcd34d">Triage Guidance</text>
+  <rect x="544" y="472" width="164" height="16" rx="8" fill="rgba(217,119,6,0.2)" stroke="rgba(217,119,6,0.4)" stroke-width="1"/>
+  <text x="626" y="484" text-anchor="middle" font-size="8.5" fill="#fcd34d">Cultural Context Adapter</text>
+</g>
+
+<!-- CONNECTOR 3 -->
+<g class="c3">
+  <line class="flow flow-red" x1="430" y1="497" x2="430" y2="537"/>
+  <polygon points="424,532 430,545 436,532" fill="#f87171"/>
+</g>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- LAYER 4 — SAFETY (red) -->
+<!-- ══════════════════════════════════════════════ -->
+<g class="l4">
+  <text x="430" y="560" text-anchor="middle" font-size="9" font-weight="700" fill="#475569" letter-spacing="1.5">④ CLINICAL SAFETY GUARDRAIL</text>
+  <rect x="30" y="568" width="680" height="82" rx="12" fill="#200000" stroke="#dc2626" stroke-width="2"/>
+  <text x="370" y="596" text-anchor="middle" font-size="13" font-weight="700" fill="#fca5a5">🛡 Clinical Safety Guardrail</text>
+  <text x="370" y="613" text-anchor="middle" font-size="9.5" fill="#fecaca">core/safety.py — every AI output passes through before reaching the user</text>
+  <rect x="50"  y="622" width="142" height="16" rx="8" fill="rgba(220,38,38,0.2)" stroke="rgba(220,38,38,0.4)" stroke-width="1"/>
+  <text x="121" y="634" text-anchor="middle" font-size="8" fill="#fca5a5">✗ Block diagnostic claims</text>
+  <rect x="204" y="622" width="132" height="16" rx="8" fill="rgba(220,38,38,0.2)" stroke="rgba(220,38,38,0.4)" stroke-width="1"/>
+  <text x="270" y="634" text-anchor="middle" font-size="8" fill="#fca5a5">✗ Block dose changes</text>
+  <rect x="348" y="622" width="118" height="16" rx="8" fill="rgba(220,38,38,0.2)" stroke="rgba(220,38,38,0.4)" stroke-width="1"/>
+  <text x="407" y="634" text-anchor="middle" font-size="8" fill="#fca5a5">SHA-256 audit hash</text>
+  <rect x="478" y="622" width="110" height="16" rx="8" fill="rgba(220,38,38,0.2)" stroke="rgba(220,38,38,0.4)" stroke-width="1"/>
+  <text x="533" y="634" text-anchor="middle" font-size="8" fill="#fca5a5">Disclaimer appended</text>
+  <rect x="600" y="622" width="96" height="16" rx="8" fill="rgba(220,38,38,0.2)" stroke="rgba(220,38,38,0.4)" stroke-width="1"/>
+  <text x="648" y="634" text-anchor="middle" font-size="8" fill="#fca5a5">Audit log (7yr)</text>
+</g>
+
+<!-- Audit side labels -->
+<g class="audit">
+  <line x1="712" y1="596" x2="758" y2="596" stroke="#475569" stroke-dasharray="4,3" stroke-width="1"/>
+  <text x="762" y="600" font-size="9" fill="#64748b">Audit log</text>
+  <line x1="712" y1="614" x2="758" y2="614" stroke="#475569" stroke-dasharray="4,3" stroke-width="1"/>
+  <text x="762" y="618" font-size="9" fill="#64748b">GDPR aligned</text>
+  <line x1="712" y1="632" x2="758" y2="632" stroke="#475569" stroke-dasharray="4,3" stroke-width="1"/>
+  <text x="762" y="636" font-size="9" fill="#64748b">NHS DSPT</text>
+</g>
+
+<!-- CONNECTOR 4 -->
+<g class="c4">
+  <line class="flow flow-teal" x1="430" y1="650" x2="430" y2="690"/>
+  <polygon points="424,685 430,698 436,685" fill="#2dd4bf"/>
+</g>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- LAYER 5 — OUTPUT FEATURES (teal) -->
+<!-- ══════════════════════════════════════════════ -->
+<g class="l5">
+  <text x="430" y="715" text-anchor="middle" font-size="9" font-weight="700" fill="#475569" letter-spacing="1.5">⑤ OUTPUT FEATURES</text>
+
+  <rect x="30"  y="722" width="178" height="72" rx="10" fill="#0f3d38" stroke="#0d9488" stroke-width="1.5"/>
+  <text x="119" y="750" text-anchor="middle" font-size="18">💊</text>
+  <text x="119" y="769" text-anchor="middle" font-size="11" font-weight="700" fill="#5eead4">Prescription</text>
+  <text x="119" y="784" text-anchor="middle" font-size="9"  fill="#99f6e4">Plain lang · your language</text>
+
+  <rect x="221" y="722" width="178" height="72" rx="10" fill="#0f3d38" stroke="#0d9488" stroke-width="1.5"/>
+  <text x="310" y="750" text-anchor="middle" font-size="18">🔔</text>
+  <text x="310" y="769" text-anchor="middle" font-size="11" font-weight="700" fill="#5eead4">Reminders</text>
+  <text x="310" y="784" text-anchor="middle" font-size="9"  fill="#99f6e4">Smart push alerts</text>
+
+  <rect x="412" y="722" width="178" height="72" rx="10" fill="#0f3d38" stroke="#0d9488" stroke-width="1.5"/>
+  <text x="501" y="750" text-anchor="middle" font-size="18">📅</text>
+  <text x="501" y="769" text-anchor="middle" font-size="11" font-weight="700" fill="#5eead4">Appointments</text>
+  <text x="501" y="784" text-anchor="middle" font-size="9"  fill="#99f6e4">Book via voice · GP FHIR</text>
+
+  <rect x="603" y="722" width="227" height="72" rx="10" fill="#0f3d38" stroke="#0d9488" stroke-width="1.5"/>
+  <text x="716" y="750" text-anchor="middle" font-size="18">🚨</text>
+  <text x="716" y="769" text-anchor="middle" font-size="11" font-weight="700" fill="#5eead4">Triage Guide</text>
+  <text x="716" y="784" text-anchor="middle" font-size="9"  fill="#99f6e4">A&amp;E vs UTC wait times</text>
+</g>
+
+<!-- CONNECTOR 5 -->
+<g class="c5">
+  <line class="flow flow-blue" x1="430" y1="794" x2="430" y2="834"/>
+  <polygon points="424,829 430,842 436,829" fill="#60a5fa"/>
+</g>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- LAYER 6 — NHS INTEGRATION (blue + purple) -->
+<!-- ══════════════════════════════════════════════ -->
+<g class="l6">
+  <text x="430" y="858" text-anchor="middle" font-size="9" font-weight="700" fill="#475569" letter-spacing="1.5">⑥ NHS INTEGRATION LAYER</text>
+
+  <rect x="30"  y="865" width="178" height="70" rx="10" fill="#2e1065" stroke="#7c3aed" stroke-width="1.5"/>
+  <text x="119" y="893" text-anchor="middle" font-size="18">🔊</text>
+  <text x="119" y="912" text-anchor="middle" font-size="11" font-weight="700" fill="#c4b5fd">TTS Engine</text>
+  <text x="119" y="927" text-anchor="middle" font-size="9"  fill="#ddd6fe">Azure · 10+ languages</text>
+
+  <rect x="221" y="865" width="178" height="70" rx="10" fill="#1e3a8a" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="310" y="893" text-anchor="middle" font-size="18">🏥</text>
+  <text x="310" y="912" text-anchor="middle" font-size="11" font-weight="700" fill="#93c5fd">GP Connect</text>
+  <text x="310" y="927" text-anchor="middle" font-size="9"  fill="#bfdbfe">FHIR R4</text>
+
+  <rect x="412" y="865" width="178" height="70" rx="10" fill="#1e3a8a" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="501" y="893" text-anchor="middle" font-size="18">📞</text>
+  <text x="501" y="912" text-anchor="middle" font-size="11" font-weight="700" fill="#93c5fd">NHS 111 Online</text>
+  <text x="501" y="927" text-anchor="middle" font-size="9"  fill="#bfdbfe">Triage API</text>
+
+  <rect x="603" y="865" width="227" height="70" rx="10" fill="#1e3a8a" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="716" y="893" text-anchor="middle" font-size="18">📋</text>
+  <text x="716" y="912" text-anchor="middle" font-size="11" font-weight="700" fill="#93c5fd">NHS Login</text>
+  <text x="716" y="927" text-anchor="middle" font-size="9"  fill="#bfdbfe">Patient identity</text>
+</g>
+
+<!-- CONNECTOR 6 -->
+<g class="c6">
+  <line class="flow flow-green" x1="430" y1="935" x2="430" y2="975"/>
+  <polygon points="424,970 430,983 436,970" fill="#34d399"/>
+</g>
+
+<!-- ══════════════════════════════════════════════ -->
+<!-- LAYER 7 — PATIENT (green) -->
+<!-- ══════════════════════════════════════════════ -->
+<g class="l7">
+  <text x="430" y="1000" text-anchor="middle" font-size="9" font-weight="700" fill="#475569" letter-spacing="1.5">⑦ PATIENT OUTCOME</text>
+  <rect x="30" y="1007" width="800" height="72" rx="12" fill="#022c22" stroke="#059669" stroke-width="2"/>
+  <text x="430" y="1035" text-anchor="middle" font-size="14" font-weight="700" fill="#6ee7b7">✅ Patient — Informed and Supported</text>
+  <text x="430" y="1053" text-anchor="middle" font-size="10" fill="#a7f3d0">In their language · Clinically safe · NHS aligned</text>
+  <rect x="52"  y="1061" width="162" height="14" rx="7" fill="rgba(5,150,105,0.2)" stroke="rgba(5,150,105,0.4)" stroke-width="1"/>
+  <text x="133" y="1072" text-anchor="middle" font-size="8" fill="#6ee7b7">Voice response in native lang</text>
+  <rect x="226" y="1061" width="120" height="14" rx="7" fill="rgba(5,150,105,0.2)" stroke="rgba(5,150,105,0.4)" stroke-width="1"/>
+  <text x="286" y="1072" text-anchor="middle" font-size="8" fill="#6ee7b7">Booking confirmed</text>
+  <rect x="358" y="1061" width="110" height="14" rx="7" fill="rgba(5,150,105,0.2)" stroke="rgba(5,150,105,0.4)" stroke-width="1"/>
+  <text x="413" y="1072" text-anchor="middle" font-size="8" fill="#6ee7b7">Triage outcome</text>
+  <rect x="480" y="1061" width="150" height="14" rx="7" fill="rgba(5,150,105,0.2)" stroke="rgba(5,150,105,0.4)" stroke-width="1"/>
+  <text x="555" y="1072" text-anchor="middle" font-size="8" fill="#6ee7b7">Medication reminders set</text>
+</g>
+
+<!-- ── LEGEND ── -->
+<g class="footer">
+  <rect x="30" y="1094" width="800" height="1" fill="#1e293b"/>
+  <circle cx="52"  cy="1108" r="5" fill="#0d9488"/>
+  <text x="62"  y="1112" font-size="9" fill="#64748b">User Input / Output</text>
+  <circle cx="172" cy="1108" r="5" fill="#7c3aed"/>
+  <text x="182" y="1112" font-size="9" fill="#64748b">Processing</text>
+  <circle cx="262" cy="1108" r="5" fill="#d97706"/>
+  <text x="272" y="1112" font-size="9" fill="#64748b">AI Core Engine</text>
+  <circle cx="372" cy="1108" r="5" fill="#dc2626"/>
+  <text x="382" y="1112" font-size="9" fill="#64748b">Clinical Safety</text>
+  <circle cx="470" cy="1108" r="5" fill="#2563eb"/>
+  <text x="480" y="1112" font-size="9" fill="#64748b">NHS Integration</text>
+  <circle cx="575" cy="1108" r="5" fill="#059669"/>
+  <text x="585" y="1112" font-size="9" fill="#64748b">Patient Outcome</text>
+  <text x="830" y="1112" text-anchor="end" font-size="9" fill="#334155">© 2026 ShieldTech Ltd</text>
+</g>
+
+</svg>
