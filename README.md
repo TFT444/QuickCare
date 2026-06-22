@@ -1,32 +1,51 @@
+<div align="center">
+
 # QuickCare
+
+### AI-powered NHS healthcare companion — breaking language barriers for 8 million UK residents
+
+[![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.111-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![Claude API](https://img.shields.io/badge/Claude-claude--sonnet--4--6-D97757?style=flat-square)](https://anthropic.com)
+[![Azure](https://img.shields.io/badge/Azure-NHS_Cloud-0078D4?style=flat-square&logo=microsoft-azure&logoColor=white)](https://azure.microsoft.com)
+[![License](https://img.shields.io/badge/Licence-Proprietary-red?style=flat-square)](./LICENCE)
+[![NHS Aligned](https://img.shields.io/badge/NHS-Aligned-005EB8?style=flat-square)](https://www.england.nhs.uk)
+[![Security Policy](https://img.shields.io/badge/Security-Policy-brightgreen?style=flat-square)](./SECURITY.md)
+[![Branch](https://img.shields.io/badge/Branch-Protected-blue?style=flat-square)](./.github/CODEOWNERS)
 
 > **Your NHS. Your language. Your health — clearly explained.**
 
-QuickCare is an AI-powered NHS companion that removes the language and accessibility barriers millions of UK residents face every day. Through voice, text, and AI, QuickCare delivers prescription explanations, medication reminders, appointment booking, and health guidance — in any language, for everyone.
+</div>
 
 ---
 
-## The Problem
+## 📌 Overview
+
+QuickCare sits alongside existing NHS infrastructure and makes it accessible to everyone — regardless of language, literacy, or digital confidence.
+
+Patients photograph or dictate their prescription, and QuickCare explains it in plain language in their native tongue. No jargon. No confusion. No unnecessary A&E visits.
+
+---
+
+## 🚨 The Problem
 
 Over **8 million people** in the UK speak English as a second language. The NHS App, GP systems, and pharmacy services are built almost entirely in English. Every day, patients:
 
 - Receive prescriptions they cannot fully understand
 - Miss medication doses due to confusion over instructions
-- Avoid booking GP appointments because the process is too complex
+- Avoid booking GP appointments because the process feels too complex
 - Leave consultations unsure of what the doctor actually said
-- Reach for A&E when a simpler service would have been appropriate
+- Reach for A&E when a pharmacist or NHS 111 would have been appropriate
 
-This is not a lack of intelligence. It is a lack of access.
+This is not a lack of intelligence. It is a **lack of access**.
 
 ---
 
-## The Solution
-
-QuickCare sits alongside existing NHS infrastructure and makes it accessible to everyone.
+## 💡 The Solution
 
 | Feature | What it does |
 |---|---|
-| **Prescription explainer** | Patient photographs or receives prescription digitally — AI explains each medicine in plain language, dosage, side effects, and warnings |
+| **Prescription explainer** | Photograph or receive prescription digitally — AI explains each medicine in plain language, dosage, side effects, and warnings |
 | **Medication reminders** | Smart push notifications tied to prescription data, personalised timing |
 | **Appointment booking** | Integrated with NHS Login API — book GP appointments by voice or text |
 | **Multilingual voice interface** | Speak in your language, receive answers in your language |
@@ -37,9 +56,9 @@ QuickCare sits alongside existing NHS infrastructure and makes it accessible to 
 
 ---
 
-## Who It Is For
+## 👥 Who It Is For
 
-QuickCare is built for everyone — not only people with disabilities. The primary beneficiaries are:
+QuickCare is built for everyone. The primary beneficiaries are:
 
 - UK residents whose first language is not English
 - Elderly patients who find NHS digital services difficult to navigate
@@ -48,7 +67,7 @@ QuickCare is built for everyone — not only people with disabilities. The prima
 
 ---
 
-## Architecture Overview
+## 🏗 Architecture Overview
 
 ![QuickCare System Flow](docs/flowchart.svg)
 
@@ -79,7 +98,7 @@ QuickCare is built for everyone — not only people with disabilities. The prima
 
 ---
 
-## Roadmap
+## 🗺 Roadmap
 
 ### Phase 1 — MVP (Months 1–4)
 - [ ] Prescription photo upload and AI explanation engine
@@ -117,7 +136,7 @@ QuickCare is built for everyone — not only people with disabilities. The prima
 
 ---
 
-## Tech Stack
+## 🛠 Tech Stack
 
 | Layer | Technology |
 |---|---|
@@ -132,7 +151,7 @@ QuickCare is built for everyone — not only people with disabilities. The prima
 
 ---
 
-## Repository Structure
+## 📁 Repository Structure
 
 ```
 QuickCare/
@@ -182,9 +201,16 @@ QuickCare/
 │   ├── azure/
 │   └── docker/
 ├── .github/
-│   └── workflows/
-│       ├── ci.yml
-│       └── security_scan.yml
+│   ├── workflows/
+│   │   ├── ci.yml
+│   │   └── security_scan.yml
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.md
+│   │   └── feature_request.md
+│   ├── pull_request_template.md
+│   └── CODEOWNERS
+├── SECURITY.md
+├── CONTRIBUTING.md
 ├── .env.example
 ├── requirements.txt
 ├── Dockerfile
@@ -193,9 +219,44 @@ QuickCare/
 
 ---
 
-## Clinical Safety
+## 🔒 Security
 
-QuickCare is designed with clinical safety as a first principle, not an afterthought.
+QuickCare treats security as a first principle — not an afterthought. The security model is layered across the codebase, infrastructure, and development workflow.
+
+### Application Security
+
+| Control | Implementation |
+|---|---|
+| Authentication | JWT Bearer tokens on all routes |
+| Rate limiting | 30 req/min per IP — `src/api/middleware/rate_limit.py` |
+| Input validation | Pydantic schemas on all endpoints |
+| AI output guardrails | `src/core/safety.py` — blocks diagnostic claims, dose changes |
+| Audit logging | SHA-256 hash of every AI output, structured JSON logs |
+| Secrets management | Environment variables only — `.env.example` documents all keys |
+| Dependency scanning | Bandit + TruffleHog on every CI run |
+
+### Branch Protection
+
+| Rule | Setting |
+|---|---|
+| Push to `main` | ❌ Blocked — PRs only |
+| Push to `dev` | ✅ Allowed for contributors |
+| PR approval required | ✅ Minimum 1 review from `@TFT444` |
+| Status checks required | ✅ CI must pass before merge |
+| Force push to `main` | ❌ Disabled |
+| Branch deletion of `main` | ❌ Disabled |
+
+> All new code goes into `dev`. Only reviewed, tested, and approved code is merged into `main`.
+
+### Vulnerability Reporting
+
+Found a security issue? Please read our [SECURITY.md](./SECURITY.md) before opening a public issue.
+
+---
+
+## 🏥 Clinical Safety
+
+QuickCare is designed with clinical safety as a first principle.
 
 - All AI-generated content carries a mandatory disclaimer: *"This information is for guidance only. Always consult your pharmacist or GP for medical advice."*
 - No diagnostic claims are made at any point
@@ -205,7 +266,7 @@ QuickCare is designed with clinical safety as a first principle, not an aftertho
 
 ---
 
-## Compliance
+## ✅ Compliance
 
 | Standard | Status |
 |---|---|
@@ -218,7 +279,7 @@ QuickCare is designed with clinical safety as a first principle, not an aftertho
 
 ---
 
-## NHS Alignment
+## 🌍 NHS Alignment
 
 QuickCare directly supports the following NHS England strategic priorities:
 
@@ -229,7 +290,7 @@ QuickCare directly supports the following NHS England strategic priorities:
 
 ---
 
-## Supported Languages (Phase 1)
+## 🌐 Supported Languages (Phase 1)
 
 English · Urdu · Bengali · Somali · Polish · Punjabi · Arabic · Tamil · Romanian · Gujarati
 
@@ -237,27 +298,33 @@ English · Urdu · Bengali · Somali · Polish · Punjabi · Arabic · Tamil · 
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
-This repository is currently **private** and under active development. Contribution guidelines will be published ahead of the public release.
+All contributions flow through `dev`. No direct pushes to `main` are permitted.
+
+Please read [CONTRIBUTING.md](./CONTRIBUTING.md) before opening a pull request.
 
 ---
 
-## Founder
+## 👤 Authors
 
-**Tamim** — BSc Computing Systems, Ulster University London  
+**Tanvir Farhad** — Founder & Lead Engineer  
+BSc Computing Systems, Ulster University London  
 Founder of [RetailShield](https://retail-shield.vercel.app) and ShieldTech Ltd  
-AI & Scanner Rules Lead, OpenShield (OWASP-listed)
+AI & Scanner Rules Lead, OpenShield (OWASP-listed)  
+[github.com/TFT444](https://github.com/TFT444)
+
+**Emon** — Co-Author & Contributor
 
 ---
 
-## Disclaimer
+## ⚠️ Disclaimer
 
 QuickCare is not a medical device. It does not diagnose, treat, or prescribe. All health information provided is for guidance only. Users should always consult a qualified healthcare professional for medical advice.
 
 ---
 
-## Licence
+## 📄 Licence
 
 Copyright © 2026 QuickCare / ShieldTech Ltd. All rights reserved.  
 *Licence to be determined prior to public release.*
