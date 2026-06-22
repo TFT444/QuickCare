@@ -22,7 +22,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run tests
-        run: pytest tests/ -v
+        run: pytest tests/ -v --tb=short
 
       - name: Security scan (bandit)
         run: bandit -r src/ -ll
