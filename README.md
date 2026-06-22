@@ -50,6 +50,8 @@ QuickCare is built for everyone — not only people with disabilities. The prima
 
 ## Architecture Overview
 
+![QuickCare System Flow](docs/flowchart.svg)
+
 ```
 ┌─────────────────────────────────────────────────────┐
 │                    QuickCare Platform                │
