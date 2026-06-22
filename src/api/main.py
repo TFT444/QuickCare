@@ -7,7 +7,7 @@ import redis.asyncio as aioredis
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 
-from src.api.routes import prescriptions, reminders, appointments, voice
+from src.api.routes import prescriptions, reminders, appointments, voice, drug_interactions
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -61,6 +61,7 @@ app.include_router(prescriptions.router, prefix="/prescriptions", tags=["Prescri
 app.include_router(reminders.router, prefix="/reminders", tags=["Reminders"])
 app.include_router(appointments.router, prefix="/appointments", tags=["Appointments"])
 app.include_router(voice.router, prefix="/voice", tags=["Voice"])
+app.include_router(drug_interactions.router, prefix="/drug-interactions", tags=["Drug Interactions"])
 
 
 @app.get("/health")
