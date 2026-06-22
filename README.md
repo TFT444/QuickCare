@@ -69,6 +69,8 @@ QuickCare is built for everyone. The primary beneficiaries are:
 
 ## 🏗 Architecture Overview
 
+> [**View Interactive System Architecture →**](docs/architecture.html) &nbsp;|&nbsp; [Live on GitHub Pages](https://TFT444.github.io/QuickCare/docs/architecture.html)
+
 ![QuickCare System Flow](docs/flowchart.svg)
 
 ```

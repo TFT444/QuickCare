@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuickCare — System Architecture</title>
+<style>
+  :root {
+    --teal:    #0d9488;
+    --teal-bg: #ccfbf1;
+    --purple:  #7c3aed;
+    --purple-bg: #ede9fe;
+    --amber:   #d97706;
+    --amber-bg:#fef3c7;
+    --red:     #dc2626;
+    --red-bg:  #fee2e2;
+    --blue:    #2563eb;
+    --blue-bg: #dbeafe;
+    --green:   #059669;
+    --green-bg:#d1fae5;
+    --grey:    #475569;
+    --grey-bg: #f1f5f9;
+    --line:    #94a3b8;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    min-height: 100vh;
+    padding: 2rem 1rem 4rem;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeDown 0.7s ease forwards;
+  }
+  .header h1 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700;
+    color: #f8fafc;
+    letter-spacing: -0.5px;
+  }
+  .header h1 span { color: #38bdf8; }
+  .header p {
+    margin-top: 0.5rem;
+    color: #94a3b8;
+    font-size: 0.95rem;
+  }
+  .badge {
+    display: inline-block;
+    margin-top: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: #1e3a5f;
+    color: #38bdf8;
+    border: 1px solid #334155;
+  }
+
+  /* ── WRAPPER ── */
+  .arch {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  /* ── LAYER SECTIONS ── */
+  .layer {
+    width: 100%;
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  .layer.visible {
+    animation: riseIn 0.6s ease forwards;
+  }
+
+  .layer-label {
+    text-align: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 0.55rem;
+  }
+
+  .cards {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .card {
+    flex: 1;
+    min-width: 130px;
+    max-width: 200px;
+    border-radius: 12px;
+    padding: 0.85rem 0.75rem;
+    text-align: center;
+    border: 1.5px solid transparent;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  }
+  .card .icon { font-size: 1.4rem; margin-bottom: 0.3rem; }
+  .card .title {
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+    line-height: 1.2;
+  }
+  .card .sub {
+    font-size: 0.68rem;
+    opacity: 0.8;
+    line-height: 1.3;
+  }
+
+  /* teal */
+  .teal  { background: #0f3d38; border-color: var(--teal); color: #ccfbf1; }
+  .teal .title { color: #5eead4; }
+  /* purple */
+  .purple { background: #2e1065; border-color: var(--purple); color: #ede9fe; }
+  .purple .title { color: #c4b5fd; }
+  /* amber */
+  .amber { background: #451a03; border-color: var(--amber); color: #fef3c7; }
+  .amber .title { color: #fcd34d; }
+  /* red */
+  .red { background: #450a0a; border-color: var(--red); color: #fee2e2; }
+  .red .title { color: #fca5a5; }
+  /* blue */
+  .blue { background: #1e3a8a; border-color: var(--blue); color: #dbeafe; }
+  .blue .title { color: #93c5fd; }
+  /* green */
+  .green { background: #052e16; border-color: var(--green); color: #d1fae5; }
+  .green .title { color: #6ee7b7; }
+
+  /* ── WIDE CARDS (AI engine, safety, patient) ── */
+  .wide {
+    width: 100%;
+    border-radius: 14px;
+    padding: 1.2rem 1.5rem;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+  }
+  .wide .w-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .wide .w-sub {
+    font-size: 0.75rem;
+    opacity: 0.85;
+    margin-bottom: 0.5rem;
+  }
+  .wide .w-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+  }
+  .wide .pill {
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  /* shimmer sweep on wide cards */
+  .wide::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  /* ── CONNECTOR ── */
+  .connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 52px;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .connector.visible { opacity: 1; }
+
+  .connector svg {
+    overflow: visible;
+  }
+
+  /* ── SPLIT CONNECTOR ── */
+  .split-connector {
+    width: 100%;
+    height: 60px;
+    opacity: 0;
+    transition: opacity 0.5s;
+  }
+  .split-connector.visible { opacity: 1; }
+
+  /* ── AUDIT LABEL (floated to right of safety) ── */
+  .safety-wrap {
+    position: relative;
+    width: 100%;
+  }
+  .audit-label {
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    opacity: 0;
+    transition: opacity 0.5s 0.3s;
+  }
+  .audit-label.visible { opacity: 1; }
+  .audit-label .al {
+    font-size: 0.65rem;
+    color: #94a3b8;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .audit-label .al::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: #475569;
+    border-top: 1px dashed #475569;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes riseIn {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes shimmer {
+    0%   { left: -100%; }
+    50%  { left: 150%; }
+    100% { left: 150%; }
+  }
+  @keyframes flowDash {
+    from { stroke-dashoffset: 40; }
+    to   { stroke-dashoffset: 0; }
+  }
+  @keyframes flowDown {
+    from { stroke-dashoffset: 60; }
+    to   { stroke-dashoffset: 0; }
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; }
+    50%      { opacity: 0.5; }
+  }
+
+  .flow-line {
+    stroke: #38bdf8;
+    stroke-width: 2;
+    fill: none;
+    stroke-dasharray: 8 4;
+    animation: flowDown 0.6s linear infinite;
+  }
+  .flow-dot {
+    fill: #38bdf8;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+    margin-top: 2.5rem;
+    opacity: 0;
+    animation: fadeDown 0.6s ease 2.5s forwards;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.7rem;
+    color: #94a3b8;
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.72rem;
+    color: #475569;
+    opacity: 0;
+    animation: fadeDown 0.6s ease 2.8s forwards;
+  }
+  .footer a { color: #38bdf8; text-decoration: none; }
+
+  /* ── MOBILE ── */
+  @media (max-width: 600px) {
+    .card { min-width: 100px; }
+    .audit-label { display: none; }
+    .wide { padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1><span>QuickCare</span> — System Architecture</h1>
+  <p>AI-powered NHS healthcare companion · Multilingual · Clinical-safety first</p>
+  <span class="badge">NHS Pitch · Phase 1 MVP</span>
+</div>
+
+<div class="arch" id="arch">
+
+  <!-- ══ LAYER 1: USER INPUT ══ -->
+  <div class="layer" data-delay="0">
+    <div class="layer-label">① User Input Layer</div>
+    <div class="cards">
+      <div class="card teal">
+        <div class="icon">📷</div>
+        <div class="title">Photo Upload</div>
+        <div class="sub">Prescription image</div>
+      </div>
+      <div class="card teal">
+        <div class="icon">🎙</div>
+        <div class="title">Voice Input</div>
+        <div class="sub">Any language</div>
+      </div>
+      <div class="card teal">
+        <div class="icon">⌨️</div>
+        <div class="title">Text Input</div>
+        <div class="sub">Type or paste</div>
+      </div>
+      <div class="card teal">
+        <div class="icon">🏥</div>
+        <div class="title">NHS Record</div>
+        <div class="sub">Via NHS Login</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- connector -->
+  <div class="connector" data-conn>
+    <svg width="2" height="52" viewBox="0 0 2 52">
+      <line class="flow-line" x1="1" y1="0" x2="1" y2="52"/>
+    </svg>
+  </div>
+
+  <!-- ══ LAYER 2: PROCESSING ══ -->
+  <div class="layer" data-delay="200">
+    <div class="layer-label">② Processing Layer</div>
+    <div class="cards">
+      <div class="card purple">
+        <div class="icon">🔍</div>
+        <div class="title">OCR Engine</div>
+        <div class="sub">pytesseract</div>
+      </div>
+      <div class="card purple">
+        <div class="icon">🎧</div>
+        <div class="title">STT Engine</div>
+        <div class="sub">Whisper · auto lang</div>
+      </div>
+      <div class="card purple">
+        <div class="icon">🌐</div>
+        <div class="title">Lang Detect</div>
+        <div class="sub">Auto ISO 639-1</div>
+      </div>
+      <div class="card purple">
+        <div class="icon">🔐</div>
+        <div class="title">NHS Login</div>
+        <div class="sub">OAuth 2.0</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- connector -->
+  <div class="connector" data-conn>
+    <svg width="2" height="52" viewBox="0 0 2 52">
+      <line class="flow-line" x1="1" y1="0" x2="1" y2="52"/>
+    </svg>
+  </div>
+
+  <!-- ══ LAYER 3: AI ENGINE ══ -->
+  <div class="layer" data-delay="400">
+    <div class="layer-label">③ AI Core Engine</div>
+    <div class="wide amber" style="background:#1c0a00; border-color:#d97706;">
+      <div class="w-title" style="color:#fcd34d;">⚡ QuickCare AI Engine — Claude API (Anthropic)</div>
+      <div class="w-sub" style="color:#fde68a;">core/ai_engine.py · claude-sonnet-4-6 · Anthropic SDK</div>
+      <div class="w-pills">
+        <span class="pill">Prescription Explainer</span>
+        <span class="pill">Drug Interaction Checker</span>
+        <span class="pill">Triage Guidance</span>
+        <span class="pill">Cultural Context Adapter</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- connector -->
+  <div class="connector" data-conn>
+    <svg width="2" height="52" viewBox="0 0 2 52">
+      <line class="flow-line" x1="1" y1="0" x2="1" y2="52" style="stroke:#f87171;"/>
+    </svg>
+  </div>
+
+  <!-- ══ LAYER 4: SAFETY ══ -->
+  <div class="layer" data-delay="600">
+    <div class="layer-label">④ Clinical Safety Guardrail</div>
+    <div class="safety-wrap">
+      <div class="wide red" style="background:#200000; border-color:#dc2626;">
+        <div class="w-title" style="color:#fca5a5;">🛡 Clinical Safety Guardrail</div>
+        <div class="w-sub" style="color:#fecaca;">core/safety.py — every AI output passes through this before reaching the user</div>
+        <div class="w-pills">
+          <span class="pill">✗ Block diagnostic claims</span>
+          <span class="pill">✗ Block dose changes</span>
+          <span class="pill">SHA-256 audit hash</span>
+          <span class="pill">Disclaimer appended</span>
+          <span class="pill">Audit log (7yr)</span>
+        </div>
+      </div>
+      <div class="audit-label" data-audit>
+        <div class="al">Audit log · Azure Monitor</div>
+        <div class="al">GDPR aligned</div>
+        <div class="al">NHS DSPT</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- connector -->
+  <div class="connector" data-conn>
+    <svg width="2" height="52" viewBox="0 0 2 52">
+      <line class="flow-line" x1="1" y1="0" x2="1" y2="52" style="stroke:#5eead4;"/>
+    </svg>
+  </div>
+
+  <!-- ══ LAYER 5: OUTPUTS ══ -->
+  <div class="layer" data-delay="800">
+    <div class="layer-label">⑤ Output Features</div>
+    <div class="cards">
+      <div class="card teal">
+        <div class="icon">💊</div>
+        <div class="title">Prescription</div>
+        <div class="sub">Plain language · your language</div>
+      </div>
+      <div class="card teal">
+        <div class="icon">🔔</div>
+        <div class="title">Reminders</div>
+        <div class="sub">Smart push alerts · voice or text</div>
+      </div>
+      <div class="card teal">
+        <div class="icon">📅</div>
+        <div class="title">Appointments</div>
+        <div class="sub">Book via voice · GP Connect FHIR</div>
+      </div>
+      <div class="card teal">
+        <div class="icon">🚨</div>
+        <div class="title">Triage Guide</div>
+        <div class="sub">A&E vs UTC wait times</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- connector -->
+  <div class="connector" data-conn>
+    <svg width="2" height="52" viewBox="0 0 2 52">
+      <line class="flow-line" x1="1" y1="0" x2="1" y2="52" style="stroke:#60a5fa;"/>
+    </svg>
+  </div>
+
+  <!-- ══ LAYER 6: NHS INTEGRATION ══ -->
+  <div class="layer" data-delay="1000">
+    <div class="layer-label">⑥ NHS Integration Layer</div>
+    <div class="cards">
+      <div class="card purple">
+        <div class="icon">🔊</div>
+        <div class="title">TTS Engine</div>
+        <div class="sub">Azure · 10+ languages</div>
+      </div>
+      <div class="card blue">
+        <div class="icon">🏥</div>
+        <div class="title">GP Connect</div>
+        <div class="sub">FHIR R4</div>
+      </div>
+      <div class="card blue">
+        <div class="icon">📞</div>
+        <div class="title">NHS 111 Online</div>
+        <div class="sub">Triage API</div>
+      </div>
+      <div class="card blue">
+        <div class="icon">📋</div>
+        <div class="title">NHS Login</div>
+        <div class="sub">Patient identity</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- connector -->
+  <div class="connector" data-conn>
+    <svg width="2" height="52" viewBox="0 0 2 52">
+      <line class="flow-line" x1="1" y1="0" x2="1" y2="52" style="stroke:#6ee7b7;"/>
+    </svg>
+  </div>
+
+  <!-- ══ LAYER 7: PATIENT ══ -->
+  <div class="layer" data-delay="1200">
+    <div class="layer-label">⑦ Patient Outcome</div>
+    <div class="wide" style="background:#022c22; border-color:#059669; border-width:2px;">
+      <div class="w-title" style="color:#6ee7b7; font-size:1.1rem;">✅ Patient — Informed and Supported</div>
+      <div class="w-sub" style="color:#a7f3d0; margin-top:0.25rem;">In their language · Clinically safe · NHS aligned</div>
+      <div class="w-pills" style="margin-top:0.6rem;">
+        <span class="pill" style="background:rgba(110,231,183,0.15); border-color:rgba(110,231,183,0.3);">Voice response in native language</span>
+        <span class="pill" style="background:rgba(110,231,183,0.15); border-color:rgba(110,231,183,0.3);">Booking confirmed</span>
+        <span class="pill" style="background:rgba(110,231,183,0.15); border-color:rgba(110,231,183,0.3);">Triage outcome</span>
+        <span class="pill" style="background:rgba(110,231,183,0.15); border-color:rgba(110,231,183,0.3);">Medication reminders set</span>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /arch -->
+
+<!-- ── LEGEND ── -->
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#0d9488;"></div>User Input / Output</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#7c3aed;"></div>Processing</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#d97706;"></div>AI Core Engine</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#dc2626;"></div>Clinical Safety</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#2563eb;"></div>NHS Integration</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#059669;"></div>Patient Outcome</div>
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="footer">
+  <p>QuickCare · Built by <strong style="color:#e2e8f0;">Tanvir Farhad</strong> &amp; <strong style="color:#e2e8f0;">Emon</strong> · ShieldTech Ltd · © 2026</p>
+  <p style="margin-top:0.3rem;"><a href="../README.md">← Back to README</a> &nbsp;·&nbsp; <a href="ARCHITECTURE.md">Architecture Docs</a> &nbsp;·&nbsp; <a href="NHS_COMPLIANCE.md">NHS Compliance</a></p>
+</div>
+
+<script>
+  // ── Sequential reveal on scroll / load ──
+  const layers = document.querySelectorAll('.layer');
+  const connectors = document.querySelectorAll('[data-conn]');
+  const auditLabel = document.querySelector('[data-audit]');
+
+  function animateIn() {
+    layers.forEach((layer, i) => {
+      const delay = parseInt(layer.dataset.delay || 0);
+      setTimeout(() => {
+        layer.classList.add('visible');
+        // show connector after this layer
+        if (connectors[i]) {
+          setTimeout(() => connectors[i].classList.add('visible'), 300);
+        }
+        // show audit label after safety layer (index 3)
+        if (i === 3 && auditLabel) {
+          setTimeout(() => auditLabel.classList.add('visible'), 400);
+        }
+      }, delay);
+    });
+  }
+
+  // Trigger on load with a small initial delay
+  window.addEventListener('load', () => setTimeout(animateIn, 300));
+
+  // ── Stagger card hover glow ──
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.style.filter = 'brightness(1.15)';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.filter = '';
+    });
+  });
+
+  // ── Replay animation on double-click ──
+  document.querySelector('.header').addEventListener('dblclick', () => {
+    layers.forEach(l => l.classList.remove('visible'));
+    connectors.forEach(c => c.classList.remove('visible'));
+    if (auditLabel) auditLabel.classList.remove('visible');
+    setTimeout(animateIn, 100);
+  });
+</script>
+</body>
+</html>
