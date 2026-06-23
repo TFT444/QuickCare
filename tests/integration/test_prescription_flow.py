@@ -6,7 +6,8 @@ from unittest.mock import AsyncMock, patch
 def client():
     with patch("src.api.main.create_async_engine"), \
          patch("src.api.main.aioredis") as mock_redis:
-        mock_redis.from_url = AsyncMock(return_value=AsyncMock())
+        mock_redis_client = AsyncMock()
+        mock_redis.from_url = AsyncMock(return_value=mock_redis_client)
         from src.api.main import app
         from fastapi.testclient import TestClient
         with TestClient(app) as c:

@@ -4,6 +4,18 @@ __pycache__/
 *.pyo
 *.pyd
 .Python
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
 
 # Virtual environments
 .venv/
@@ -11,18 +23,20 @@ venv/
 env/
 ENV/
 
-# Secrets — never commit real keys
+# Environment / secrets — never commit real keys
 .env
 .env.*
 !.env.example
 
-# Test artefacts
+# Testing
 .pytest_cache/
 .coverage
 htmlcov/
-*.egg-info/
-dist/
-build/
+.tox/
+
+# Type checking
+.mypy_cache/
+.dmypy.json
 
 # IDE
 .vscode/
@@ -34,5 +48,8 @@ build/
 .DS_Store
 Thumbs.db
 
-# TTS audio stubs
+# Alembic
+alembic/versions/*.pyc
+
+# Audio output stubs
 static/audio/*.mp3
