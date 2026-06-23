@@ -31,7 +31,8 @@ async def synthesise_speech(text: str, language: str) -> dict:
     config = speechsdk.SpeechConfig(subscription=key, region=region)
     config.speech_synthesis_voice_name = voice
 
-    tmp_path = tempfile.mktemp(suffix=".mp3")
+    fd, tmp_path = tempfile.mkstemp(suffix=".mp3")
+    os.close(fd)
     audio_config = speechsdk.audio.AudioOutputConfig(filename=tmp_path)
     synthesiser = speechsdk.SpeechSynthesizer(speech_config=config, audio_config=audio_config)
 
