@@ -2,7 +2,7 @@
 
 # QuickCare
 
-### AI-powered NHS healthcare companion — breaking language barriers for 8 million UK residents
+### NHS care — clearly explained, for everyone
 
 [![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.111-009688?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)

@@ -23,7 +23,7 @@ venv/
 env/
 ENV/
 
-# Environment / secrets
+# Environment / secrets — never commit real keys
 .env
 .env.*
 !.env.example
